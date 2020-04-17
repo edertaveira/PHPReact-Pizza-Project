@@ -14,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return "Test";
+});
+
+Route::prefix('api')->group(function () {
+    Route::get('menu', 'MenuController@index');
+    Route::get('order/new', 'OrderController@store');
+
 });

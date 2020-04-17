@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use Illuminate\Http\Request;
 
-class MenuController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return "Menu";
+        //
     }
 
     /**
@@ -24,16 +25,19 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // menu_ids
+        // delivery address
+
+        return "New Order";
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
         //
     }
@@ -42,10 +46,10 @@ class MenuController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Order $order)
     {
         //
     }
@@ -53,10 +57,10 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
         //
     }
