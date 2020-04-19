@@ -16,10 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return "Test";
 });
-
-Route::prefix('api')->group(function () {
-    Route::get('product/list', 'ProductController@index');
-    Route::get('product/{id}', 'ProductController@show');
-    Route::post('order/new', 'OrderController@store');
-
-});

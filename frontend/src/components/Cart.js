@@ -101,6 +101,7 @@ const Cart = (props) => {
       </Breadcrumb>
       <Layout.Content className="content">
         <Table
+          pagination={false}
           rowKey="product_id"
           columns={columns}
           dataSource={cart}

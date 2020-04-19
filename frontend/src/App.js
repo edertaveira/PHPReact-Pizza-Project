@@ -19,20 +19,10 @@ const renderComponent = (AsyncFunc) => {
       <Layout.Content>
         <AsyncFunc />
       </Layout.Content>
-      <Layout.Footer>Footer</Layout.Footer>
+      <Layout.Footer>Copyright 2020</Layout.Footer>
     </Layout>
   );
 };
-
-const asyncLogin = Loadable({
-  loader: () => import("./components/account/Login"),
-  loading,
-});
-
-const asyncRegister = Loadable({
-  loader: () => import("./components/account/Register"),
-  loading,
-});
 
 const asyncHome = Loadable({
   loader: () => import("./components/Home"),
@@ -56,8 +46,6 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <HandyAuth>
           <Router>
-            <Route exact path={routes.LOGIN} component={asyncLogin} />
-            <Route exact path={routes.REGISTER} component={asyncRegister} />
             <Route
               exact
               path={routes.HOME}

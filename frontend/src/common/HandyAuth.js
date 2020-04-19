@@ -6,7 +6,7 @@ class HandyAuth extends Component {
   async addToken() {
     let dataToken = this.props.token;
     if (dataToken) {
-      var token = "JWT" + this.props.token;
+      var token = "Bearer " + this.props.token;
       axios.defaults.headers.common["Authorization"] = token;
     }
   }

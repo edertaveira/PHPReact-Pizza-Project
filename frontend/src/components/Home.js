@@ -31,7 +31,7 @@ const Home = (props) => {
   }, []);
 
   const getMenu = async () => {
-    axios.get(`${API_ROOT}/api/product/list`).then((result) => {
+    axios.post(`${API_ROOT}/api/product/list`).then((result) => {
       setMenu(result.data);
     });
 

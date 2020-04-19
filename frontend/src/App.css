@@ -5,6 +5,22 @@
   color: #ffffff;
   font-size: 20px;
 }
+.logo-login {
+  text-align: center;
+  font-family: "PT Sans", sans-serif;
+  margin: 40px 0;
+  font-size: 60px;
+}
+
+.ant-menu-item > svg {
+  font-size: 15px;
+  margin: 0px 2px -2px 0;
+}
+
+footer.ant-layout-footer {
+  text-align: center;
+  border-top: 1px solid #dddddd;
+}
 
 .extra {
   position: absolute;
@@ -14,8 +30,30 @@
   padding: 10px 20px;
 }
 
-.extra svg {
+.extra .basket {
+  float: right;
+}
+
+.extra-user > span {
+  margin: 0 8px 0 0;
+}
+
+.extra-user button svg {
+  margin: 0px 5px -2px 0px;
+}
+
+.extra .basket svg {
   font-size: 30px;
+}
+
+.extra-user {
+  float: left;
+  margin: -10px 15px 0 0;
+}
+
+.extra-user > svg {
+  margin: -5px 10px;
+  font-size: 20px;
 }
 
 .extra sup {
@@ -35,4 +73,8 @@
 
 .content-buttons {
   padding: 0 0 24px 0;
+}
+
+.user-icon {
+  font-size: 15px;
 }

@@ -28,7 +28,7 @@ class OrderController extends Controller
         // menu_ids
         // delivery address
 
-        var_dump($request);
+        //var_dump($request);
         $order = new Order();
         //$order->amount = 
 
