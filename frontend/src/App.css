@@ -1,38 +1,80 @@
-.App {
+.logo {
+  float: left;
+  margin-right: 10px;
+  font-family: "PT Sans", sans-serif;
+  color: #ffffff;
+  font-size: 20px;
+}
+.logo-login {
   text-align: center;
+  font-family: "PT Sans", sans-serif;
+  margin: 40px 0;
+  font-size: 60px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ant-menu-item > svg {
+  font-size: 15px;
+  margin: 0px 2px -2px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+footer.ant-layout-footer {
+  text-align: center;
+  border-top: 1px solid #dddddd;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.extra {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #ffffff;
+  padding: 10px 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.extra .basket {
+  float: right;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.extra-user > span {
+  margin: 0 8px 0 0;
+}
+
+.extra-user button svg {
+  margin: 0px 5px -2px 0px;
+}
+
+.extra .basket svg {
+  font-size: 30px;
+}
+
+.extra-user {
+  float: left;
+  margin: -10px 15px 0 0;
+}
+
+.extra-user > svg {
+  margin: -5px 10px;
+  font-size: 20px;
+}
+
+.extra sup {
+  top: 30px;
+  right: -2px;
+}
+
+.content {
+  background: #ffffff;
+  padding: 24px;
+  margin: 24px;
+}
+
+.ant-breadcrumb {
+  margin: 20px 24px 0 !important;
+}
+
+.content-buttons {
+  padding: 0 0 24px 0;
+}
+
+.user-icon {
+  font-size: 15px;
 }

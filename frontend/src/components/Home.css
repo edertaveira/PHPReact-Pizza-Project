@@ -1,0 +1,32 @@
+
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 360px;
+  line-height: 360px;
+  background: #1a273f;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+  font-size: 45px;
+  text-shadow: 1px 3px 3px #000;
+  color: #fff;
+}
+
+.image-slide {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: relative;
+  width: 100%;
+  height: 360px;
+}
+
+.menu-list {
+  padding: 20px;
+}
+
+.ant-list-item svg {
+  font-size: 20px;
+}

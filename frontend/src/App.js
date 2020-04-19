@@ -1,25 +1,70 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Provider } from "react-redux";
+import { Route, BrowserRouter as Router } from "react-router-dom";
+import { PersistGate } from "redux-persist/integration/react";
+import { routes } from "./common/names";
+import loading from "./common/loading";
+import Loadable from "react-loadable";
+import configureStore from "./storage/configureStore";
+import HandyAuth from "./common/HandyAuth";
+import { Layout } from "antd";
+import Header from "./common/Header";
 
+import "./App.css";
+
+const renderComponent = (AsyncFunc) => {
+  return (
+    <Layout>
+      <Header />
+      <Layout.Content>
+        <AsyncFunc />
+      </Layout.Content>
+      <Layout.Footer>Copyright 2020</Layout.Footer>
+    </Layout>
+  );
+};
+
+const asyncHome = Loadable({
+  loader: () => import("./components/Home"),
+  loading,
+});
+
+const asyncCart = Loadable({
+  loader: () => import("./components/Cart"),
+  loading,
+});
+
+const asyncDetails = Loadable({
+  loader: () => import("./components/Details"),
+  loading,
+});
+
+const { store, persistor } = configureStore();
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <HandyAuth>
+          <Router>
+            <Route
+              exact
+              path={routes.HOME}
+              render={() => renderComponent(asyncHome)}
+            />
+            <Route
+              exact
+              path={routes.CART}
+              render={() => renderComponent(asyncCart)}
+            />
+            <Route
+              exact
+              path={routes.DETAILS}
+              render={() => renderComponent(asyncDetails)}
+            />
+          </Router>
+        </HandyAuth>
+      </PersistGate>
+    </Provider>
   );
 }
 
