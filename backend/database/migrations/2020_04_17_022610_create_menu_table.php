@@ -13,8 +13,8 @@ class CreateMenuTable extends Migration
      */
     public function up()
     {
-        Schema::create('menu', function (Blueprint $table) {
-            $table->bigIncrements('menu_id')->autoincrement();
+        Schema::create('product', function (Blueprint $table) {
+            $table->bigIncrements('product_id')->autoincrement();
             $table->string('title', 100);
             $table->string('image', 100);
             $table->decimal('price', 11, 2);
@@ -29,6 +29,6 @@ class CreateMenuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu');
+        Schema::dropIfExists('product');
     }
 }

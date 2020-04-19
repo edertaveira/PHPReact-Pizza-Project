@@ -18,7 +18,8 @@ Route::get('/', function () {
 });
 
 Route::prefix('api')->group(function () {
-    Route::get('menu', 'MenuController@index');
-    Route::get('order/new', 'OrderController@store');
+    Route::get('product/list', 'ProductController@index');
+    Route::get('product/{id}', 'ProductController@show');
+    Route::post('order/new', 'OrderController@store');
 
 });

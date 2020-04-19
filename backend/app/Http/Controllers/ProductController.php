@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use Illuminate\Http\Request;
 
-class MenuController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return "Menu";
+        return Product::all()->toJson();
     }
 
     /**
@@ -24,7 +25,6 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -35,7 +35,9 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        //
+        $products = Product::all();
+        $product = $products->find($id);
+        return $product;
     }
 
     /**
