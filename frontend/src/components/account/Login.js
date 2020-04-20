@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  Row,
-  Col,
-  message,
-  Divider,
-  Modal,
-  Tabs,
-} from "antd";
+import { Form, Input, message, Modal, Tabs } from "antd";
 import axios from "axios";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { API_ROOT } from "../../common/names";
 import { userLoggedInAction } from "../../reducers/actions/userActions";
+import { allFavorite } from "../../reducers/actions/favoriteActions";
 import "./Login.css";
-import { FaPizzaSlice } from "react-icons/fa";
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
@@ -27,6 +16,13 @@ const Login = (props) => {
 
   const register = (
     <Form form={formRegister} name="register" layout="vertical">
+      <Form.Item
+        label="Name"
+        name="name"
+        rules={[{ required: true, message: "Name required!" }]}
+      >
+        <Input />
+      </Form.Item>
       <Form.Item
         label="Email"
         name="email"
@@ -45,32 +41,10 @@ const Login = (props) => {
 
       <Form.Item
         label="Password Confirm"
-        name="password_confirm"
+        name="c_password"
         rules={[{ required: true, message: "Confirm Password is required!" }]}
       >
         <Input.Password />
-      </Form.Item>
-
-      <Divider />
-
-      <Form.Item
-        label="Address"
-        name="address"
-        rules={[{ required: true, message: "Address is required!" }]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="District"
-        name="district"
-        rules={[{ required: true, message: "District is required!" }]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item label="Complement" name="complement">
-        <Input />
       </Form.Item>
     </Form>
   );
@@ -98,6 +72,15 @@ const Login = (props) => {
     </Form>
   );
 
+  const getFavorites = () => {
+    axios.post(API_ROOT + "/api/favorite/list").then((result) => {
+      if (result.data.success) {
+        const ids = result.data.products.map(item => item.product_id);
+        props.dispatch(allFavorite(ids));
+      }
+    });
+  };
+
   const onFinishLogin = (values) => {
     setLoading(true);
     axios
@@ -108,9 +91,13 @@ const Login = (props) => {
           let action = userLoggedInAction(user, token);
           props.dispatch(action);
           props.onClose();
+          /** Getting all favorites preously added */
+          getFavorites();
 
           formLogin.resetFields();
           setLoading(false);
+
+          message.success("Welcome! :) ");
         } else {
           message.error(result.data.error);
           setLoading(false);
@@ -125,7 +112,7 @@ const Login = (props) => {
   const onFinishRegister = (values) => {
     setLoading(true);
     axios
-      .post(API_ROOT + "/user/register", values)
+      .post(API_ROOT + "/api/user/register", values)
       .then((result) => {
         if (result.data.success) {
           let { user, token } = result.data;
@@ -135,6 +122,8 @@ const Login = (props) => {
 
           formLogin.resetFields();
           setLoading(false);
+
+          message.success("Welcome! :) ");
         } else {
           message.error(result.data.message);
           setLoading(false);
@@ -157,6 +146,7 @@ const Login = (props) => {
       okText={title}
       cancelText="Cancel"
       onCancel={props.onClose}
+      confirmLoading={loading}
       onOk={() => {
         if (title === "Login") {
           formLogin.validateFields().then((values) => {

@@ -25,6 +25,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function ($router) {
     Route::post('show', 'UserController@show');
 });
 
+Route::group(['middleware' => 'api', 'prefix' => 'favorite'], function ($router) {
+    Route::post('list', 'FavoriteController@index');
+    Route::post('add', 'FavoriteController@store');
+    Route::post('remove', 'FavoriteController@destroy');
+});
+
 Route::group(['middleware' => 'api', 'prefix' => 'product'], function ($router) {
     Route::post('list', 'ProductController@index');
     Route::post('show', 'ProductController@show');
@@ -32,5 +38,5 @@ Route::group(['middleware' => 'api', 'prefix' => 'product'], function ($router) 
 
 Route::group(['middleware' => 'api', 'prefix' => 'order'], function ($router) {
     Route::post('new', 'OrderController@store');
-    Route::post('byUser', 'OrderController@byUser');
+    Route::post('list', 'OrderController@index');
 });

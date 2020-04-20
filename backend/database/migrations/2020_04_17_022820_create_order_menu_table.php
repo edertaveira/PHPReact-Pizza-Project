@@ -17,7 +17,9 @@ class CreateOrderMenuTable extends Migration
             $table->primary(['order_id', 'product_id']);
             $table->bigInteger('order_id')->unsigned();
             $table->bigInteger('product_id')->unsigned();
-            $table->timestamps();
+            $table->smallInteger('amount');
+            $table->decimal('price', 11, 2);
+            $table->decimal('total', 11, 2);
             $table->foreign('order_id')->references('order_id')->on('order');
             $table->foreign('product_id')->references('product_id')->on('product');
         });

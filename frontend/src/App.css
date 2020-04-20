@@ -22,6 +22,10 @@ footer.ant-layout-footer {
   border-top: 1px solid #dddddd;
 }
 
+.cart-thumb {
+  width: 50px;
+}
+
 .extra {
   position: absolute;
   right: 0;
@@ -32,14 +36,19 @@ footer.ant-layout-footer {
 
 .extra .basket {
   float: right;
+  margin: 5px 10px 0 0;
 }
 
 .extra-user > span {
   margin: 0 8px 0 0;
 }
 
-.extra-user button svg {
+.extra-user a svg {
   margin: 0px 5px -2px 0px;
+}
+
+.extra-user a {
+  color: #fff !important;
 }
 
 .extra .basket svg {

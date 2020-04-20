@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Order;
+use App\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => []]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user();
+        $order = Order::with("products")->where('user_id', $user->user_id)->orderBy('created_at', 'desc')->get();
+        return response()->json(["success" => true, "orders" => $order]);
     }
 
     /**
@@ -25,16 +34,36 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        // menu_ids
-        // delivery address
-
-        //var_dump($request);
+        $user = auth()->user();
+        $input = $request->all();
         $order = new Order();
-        //$order->amount = 
+        $order->total = $input["order"]["total"];
+        $order->user_id = $user->user_id;
+        $order->save();
 
+        foreach ($input["order"]["products"] as $product) {
+            if ($product != null) {
+                $cproduct = Product::find($product["product_id"]);
+                $amount = $product["amount"];
+                $price = $product["price"];
+                $total = $product["amount"] * $product["price"];
+                $order->products()->save($cproduct, ["amount" => $amount, "price" => $price, "total" => $total]);
+            }
+        }
 
-
-        return "New Order";
+        if (!isset($input["last_address"])) {
+            $address =  new Address();
+            $address->address = $input["address"];
+            $address->district = $input["district"];
+            $address->number = $input["number"];
+            $address->complement = $input["complement"];
+            $address->order_id = $order->order_id;
+            $address->save();
+        } else {
+            $address = Address::where('order_id', $order->order_id)->first();
+            Address::create($address);
+        }
+        return response()->json(["success" => true]);
     }
 
     /**

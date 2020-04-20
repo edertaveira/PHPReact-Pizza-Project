@@ -1,4 +1,3 @@
-
 .ant-carousel .slick-slide {
   text-align: center;
   height: 360px;
@@ -20,7 +19,8 @@
   background-position: center center;
   position: relative;
   width: 100%;
-  height: 360px;
+  height: 460px;
+  float: left;
 }
 
 .menu-list {
