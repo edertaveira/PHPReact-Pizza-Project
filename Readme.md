@@ -1,6 +1,14 @@
-# Project Title
+[![Heroku](https://heroku-badge.herokuapp.com/?app=pizzaclub-api)](https://pizzaclub-api.herokuapp.com/)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=pizzaclub)](https://pizzaclub.herokuapp.com/)
 
-It's a Project to manage pizza orders.
+
+# THE PIZZA TASK
+
+It's a Project to manage pizza orders from Innoscripta.
+
+API (Backend) URL: https://pizzaclub-api.herokuapp.com/
+Frontend URL: https://pizzaclub.herokuapp.com/
+
 
 ## Getting Started
 
@@ -16,15 +24,9 @@ This project is separate in `backend` and `frontend`. After clone this you'll ne
 
 ### Installing
 
-Backend:
-```cd backend```
-```composer install```
-```php artisan migrate```
-```php artisan db:seed```
-```php artisan jwt:secret```
-```php artisan storage:link```
+#### Backend:
 
-You need to setup the DATA BASE's data in your `.env` file, like:
+First of all, you need to setup the DATA BASE's data in your `.env` file, like:
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -34,24 +36,31 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Frontend:
+In the terminal run:
+```cd backend```
+```composer install```
+```php artisan migrate```
+```php artisan db:seed```
+```php artisan jwt:secret```
+```php artisan storage:link```
+```php artisan serve```
+
+
+#### Frontend:
+In the terminal run:
 ```cd frontend```
 ```npm install``` or ```yarn```
+```npm start``` or ```yarn start```
 
 You can add `API_ROOT` and `STORAGE_ROOT` in your frontend `.env` file to set the API URL and/or the image's folder.
 
 
 ## Running the tests
 
-Backend:
-```php artisan serve```
+### Backend:
 
-Frontend:
-```npm start``` or ```yarn start```
+### Frontend:
 
-### Tests
-
-...
 
 ## Built With
 
@@ -64,7 +73,4 @@ Frontend:
 
 * **Eder Taveira** - *All* - [EderTaveira](https://github.com/edertaveira)
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
