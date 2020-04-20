@@ -6,6 +6,7 @@ use App\Address;
 use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -26,14 +27,30 @@ class OrderController extends Controller
         return response()->json(["success" => true, "orders" => $order]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    private function saveAddress($input, $order)
+    {
+        $address =  new Address();
+        $address->address = $input["address"];
+        $address->district = $input["district"];
+        $address->number = $input["number"];
+        $address->complement = isset($input["complement"]) ? $input["complement"] : "";
+        $address->order_id = $order->order_id;
+        $address->save();
+    }
+
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'order' => 'required',
+            'address' => 'required',
+            'district' => 'required',
+            'number' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+
         $user = auth()->user();
         $input = $request->all();
         $order = new Order();
@@ -44,25 +61,11 @@ class OrderController extends Controller
         foreach ($input["order"]["products"] as $product) {
             if ($product != null) {
                 $cproduct = Product::find($product["product_id"]);
-                $amount = $product["amount"];
-                $price = $product["price"];
                 $total = $product["amount"] * $product["price"];
-                $order->products()->save($cproduct, ["amount" => $amount, "price" => $price, "total" => $total]);
+                $order->products()->save($cproduct, ["amount" => $product["amount"], "price" => $product["price"], "total" => $total]);
             }
         }
-
-        if (!isset($input["last_address"])) {
-            $address =  new Address();
-            $address->address = $input["address"];
-            $address->district = $input["district"];
-            $address->number = $input["number"];
-            $address->complement = $input["complement"];
-            $address->order_id = $order->order_id;
-            $address->save();
-        } else {
-            $address = Address::where('order_id', $order->order_id)->first();
-            Address::create($address);
-        }
+        $this->saveAddress($input, $order);
         return response()->json(["success" => true]);
     }
 

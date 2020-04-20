@@ -5,6 +5,7 @@ import { API_ROOT, STORAGE_ROOT } from "../common/names";
 import { Carousel, Card, List, Button, Spin } from "antd";
 import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
+import Login from "./account/Login";
 
 import "./Home.css";
 import Product from "./partials/Product";
@@ -24,6 +25,7 @@ const slides = [
 
 const Home = (props) => {
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {
@@ -40,6 +42,7 @@ const Home = (props) => {
 
   return (
     <React.Fragment>
+      <Login onClose={() => setVisible(false)} visible={visible} />
       <Carousel autoplay>
         {slides.map((item, index) => {
           const backgroundImage = `url(${STORAGE_ROOT}/slide/${item.file})`;
@@ -60,7 +63,7 @@ const Home = (props) => {
           dataSource={menu}
           renderItem={(item) => (
             <List.Item>
-              <Product product={item} />
+              <Product product={item} openLogin={() => setVisible(true)} />
             </List.Item>
           )}
         />
