@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   FaPizzaSlice,
   FaShoppingBasket,
-  FaHome,
-  FaUser,
   FaSignOutAlt,
   FaSignInAlt,
+  FaArrowDown,
+  FaTicketAlt,
+  FaHeart,
 } from "react-icons/fa";
-import { Layout, Menu, Badge, Affix, Button } from "antd";
+import { Layout, Menu, Badge, Affix, Button, Dropdown, Divider } from "antd";
 import { userLoggedOutAction } from "../reducers/actions/userActions";
-import { roles } from "../common/roles";
+import { removeAllFavorite } from "../reducers/actions/favoriteActions";
 import Login from "../components/account/Login";
 
 const Header = (props) => {
@@ -20,6 +21,7 @@ const Header = (props) => {
 
   const logout = () => {
     props.userLoggedOutAction();
+    props.removeAllFavorite();
     props.history.push("/");
   };
 
@@ -28,13 +30,38 @@ const Header = (props) => {
   };
 
   const menuItems = [
-    {
-      name: "Home",
-      link: "/",
-      icon: <FaHome />,
-      roles: [],
-    },
+    // {
+    //   name: "Home",
+    //   link: "/",
+    //   icon: <FaHome />,
+    //   roles: [],
+    // },
   ];
+
+  const menu = (
+    <Menu className="menu-user">
+      <Menu.Item>
+        <Link to="/favorites">
+          <FaHeart /> Favorites
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/orders">
+          <FaTicketAlt /> My Orders
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Button
+          icon={<FaSignOutAlt />}
+          size="small"
+          type="danger"
+          onClick={logout}
+        >
+          Sign out
+        </Button>
+      </Menu.Item>
+    </Menu>
+  );
 
   let indexSelected = menuItems.findIndex(
     (item) => history.location.pathname === item.link
@@ -47,9 +74,9 @@ const Header = (props) => {
       <Login onClose={onClose} visible={visible} />
       <Affix offsetTop={0} style={{ zIndex: 16 }}>
         <Layout.Header>
-          <div className="logo">
+          <Link to="/" className="logo">
             <FaPizzaSlice /> <span>Pizza Club</span>
-          </div>
+          </Link>
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[selected]}>
             {menuItems.map((menu) => {
               const { roles, name, link, icon } = menu;
@@ -66,36 +93,31 @@ const Header = (props) => {
           </Menu>
 
           <div className="extra">
+            <Badge className="basket" count={props.cart.amount}>
+              <Link to="/cart">
+                <FaShoppingBasket />
+              </Link>
+            </Badge>
             <div className="extra-user">
               {user.name ? (
-                <>
-                  <FaUser className="user-icon" />
-                  <span>{user.name}</span>
-                  <Button
-                    icon={<FaSignOutAlt />}
-                    size="small"
-                    type="danger"
-                    onClick={logout}
+                <Dropdown overlay={menu}>
+                  <a
+                    className="ant-dropdown-link"
+                    onClick={(e) => e.preventDefault()}
                   >
-                    Sign out
-                  </Button>
-                </>
+                    {user.name} <FaArrowDown />
+                  </a>
+                </Dropdown>
               ) : (
                 <Button
                   icon={<FaSignInAlt />}
                   size="small"
-                  type="primary"
                   onClick={() => setVisible(true)}
                 >
                   Sign in
                 </Button>
               )}
             </div>
-            <Badge className="basket" count={props.cart.amount}>
-              <Link to="/cart">
-                <FaShoppingBasket />
-              </Link>
-            </Badge>
           </div>
         </Layout.Header>
       </Affix>
@@ -108,5 +130,5 @@ const mapStateToProps = (appState) => ({
   cart: appState.cart,
 });
 export default withRouter(
-  connect(mapStateToProps, { userLoggedOutAction })(Header)
+  connect(mapStateToProps, { userLoggedOutAction, removeAllFavorite })(Header)
 );

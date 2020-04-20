@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Table, Layout, Breadcrumb, Button, Space } from "antd";
+import { Table, Layout, Breadcrumb, Button, Space, Empty } from "antd";
 import { API_ROOT } from "../common/names";
 import { HomeOutlined } from "@ant-design/icons";
 
 import "./Cart.css";
-import { FaMinus, FaPlus, FaTrash, FaCheck } from "react-icons/fa";
+import { FaMinus, FaPlus, FaTrash, FaCheck, FaSmile, FaGrinBeamSweat } from "react-icons/fa";
 import {
   cartAddProduct,
   cartRemoveProduct,
   cartEmptyProduct,
 } from "../reducers/actions/cartActions";
+import Login from "./account/Login";
 
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
+  const [visible, setVisible] = useState(false);
   const { dispatch } = props;
 
   useEffect(() => {
     setup();
   }, [props.cart]);
-
-  const setup = () => {
-    let prods = [];
-    for (let key in props.cart.products) {
-      if (props.cart.products[key]) prods.push(props.cart.products[key]);
-    }
-    setCart(prods);
-  };
 
   const columns = [
     {
@@ -69,7 +63,9 @@ const Cart = (props) => {
         }).format(price);
       },
     },
-    {
+  ];
+  if (!props.getCart) {
+    columns.push({
       title: "Action",
       key: "action",
       render: (text, record) => (
@@ -86,41 +82,92 @@ const Cart = (props) => {
           />
         </div>
       ),
-    },
-  ];
+    });
+  }
+
+  const setup = () => {
+    let prods = [];
+    for (let key in props.cart.products) {
+      if (props.cart.products[key]) prods.push(props.cart.products[key]);
+    }
+    setCart(prods);
+  };
+
+  const tableCart = (
+    <Table
+      pagination={false}
+      locale={{
+        emptyText: (
+          <Empty
+            image={<FaGrinBeamSweat />}
+            imageStyle={{
+              fontSize: "60px",
+            }}
+            description={<span>Your Basket is empty.</span>}
+          >
+            <Link className="ant-btn ant-btn-primary" to="/">
+              Choose some pizzas! ;)
+            </Link>
+          </Empty>
+        ),
+      }}
+      rowKey="product_id"
+      columns={columns}
+      dataSource={cart}
+      footer={() =>
+        `Total: ${new Intl.NumberFormat("de-DE", {
+          style: "currency",
+          currency: "EUR",
+        }).format(props.cart.total)}`
+      }
+    />
+  );
+
+  const onConfirm = () => {
+    if (props.user && props.user.name) {
+      props.history.push("checkout");
+    } else {
+      setVisible(true);
+    }
+  };
+
+  const onClose = () => {
+    props.history.push("checkout");
+    setVisible(false);
+  };
+
+  if (props.getCart) {
+    return tableCart;
+  }
 
   return (
     <React.Fragment>
+      <Login visible={visible} onClose={onClose} />
       <Breadcrumb>
         <Breadcrumb.Item>
           <Link to="/">
             <HomeOutlined /> Home
           </Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>Cart</Breadcrumb.Item>
+        <Breadcrumb.Item>Basket</Breadcrumb.Item>
       </Breadcrumb>
       <Layout.Content className="content">
-        <Table
-          pagination={false}
-          rowKey="product_id"
-          columns={columns}
-          dataSource={cart}
-          footer={() =>
-            `Total: ${new Intl.NumberFormat("de-DE", {
-              style: "currency",
-              currency: "EUR",
-            }).format(props.cart.total)}`
-          }
-        />
+        {tableCart}
         <br />
         <Space style={{ float: "right" }} direction="horizontal">
           <Button
             icon={<FaTrash />}
+            disabled={cart.length === 0}
             onClick={() => dispatch(cartEmptyProduct())}
           >
             Empty Cart
           </Button>
-          <Button type="primary" icon={<FaCheck />}>
+          <Button
+            disabled={cart.length === 0}
+            onClick={onConfirm}
+            type="primary"
+            icon={<FaCheck />}
+          >
             {" "}
             Checkout
           </Button>

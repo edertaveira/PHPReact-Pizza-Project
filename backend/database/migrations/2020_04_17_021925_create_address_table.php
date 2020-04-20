@@ -16,10 +16,11 @@ class CreateAddressTable extends Migration
         Schema::create('address', function (Blueprint $table) {
             $table->bigIncrements('address_id')->autoIncrement();
             $table->string('address', 200);
-            $table->text('complement');
+            $table->text('complement')->nullable();
             $table->string('district', 100);
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('user_id')->on('user');
+            $table->smallInteger('number');
+            $table->bigInteger('order_id')->unsigned();
+            $table->foreign('order_id')->references('order_id')->on('order');
         });
     }
 

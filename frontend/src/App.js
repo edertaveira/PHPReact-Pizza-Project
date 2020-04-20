@@ -39,6 +39,21 @@ const asyncDetails = Loadable({
   loading,
 });
 
+const asyncCheckout = Loadable({
+  loader: () => import("./components/Checkout"),
+  loading,
+});
+
+const asyncOrders = Loadable({
+  loader: () => import("./components/Orders"),
+  loading,
+});
+
+const asyncFavorites = Loadable({
+  loader: () => import("./components/Favorites"),
+  loading,
+});
+
 const { store, persistor } = configureStore();
 function App() {
   return (
@@ -60,6 +75,21 @@ function App() {
               exact
               path={routes.DETAILS}
               render={() => renderComponent(asyncDetails)}
+            />
+            <Route
+              exact
+              path={routes.CHECKOUT}
+              render={() => renderComponent(asyncCheckout)}
+            />
+            <Route
+              exact
+              path={routes.ORDERS}
+              render={() => renderComponent(asyncOrders)}
+            />
+            <Route
+              exact
+              path={routes.FAVORITES}
+              render={() => renderComponent(asyncFavorites)}
             />
           </Router>
         </HandyAuth>

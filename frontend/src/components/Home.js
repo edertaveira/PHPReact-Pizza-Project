@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { API_ROOT } from "../common/names";
-import { Carousel, Card, List, Button } from "antd";
-import { FaCartPlus, FaHeart } from "react-icons/fa";
-import { cartAddProduct } from "../reducers/actions/cartActions";
+import { API_ROOT, STORAGE_ROOT } from "../common/names";
+import { Carousel, Card, List, Button, Spin } from "antd";
 import axios from "axios";
+import { LoadingOutlined } from "@ant-design/icons";
 
 import "./Home.css";
+import Product from "./partials/Product";
 
 const slides = [
   {
@@ -17,7 +17,7 @@ const slides = [
   },
   {
     file: "slide-2.jpg",
-    text: "",
+    text: "Large Pizzas. Online order only.",
     subtext: "",
   },
 ];
@@ -31,32 +31,18 @@ const Home = (props) => {
   }, []);
 
   const getMenu = async () => {
+    setLoading(true);
     axios.post(`${API_ROOT}/api/product/list`).then((result) => {
       setMenu(result.data);
+      setLoading(false);
     });
-
-    setMenu([
-      {
-        image: "banana.png",
-        title: "Pizza with Banana",
-        price: 19.0,
-      },
-      {
-        image: "4cheese.png",
-        title: "Pizza with Cheese",
-        price: 18.0,
-      },
-    ]);
-    //const menu = await axios.get(`${API_ROOT}/menu`);
   };
-
-  const { dispatch } = props;
 
   return (
     <React.Fragment>
       <Carousel autoplay>
         {slides.map((item, index) => {
-          const backgroundImage = `url(${API_ROOT}/storage/img/slide/${item.file})`;
+          const backgroundImage = `url(${STORAGE_ROOT}/slide/${item.file})`;
           return (
             <div key={`slide_${index}`}>
               <div className="image-slide" style={{ backgroundImage }}>
@@ -67,41 +53,18 @@ const Home = (props) => {
           );
         })}
       </Carousel>
-
-      <List
-        className="menu-list"
-        grid={{ gutter: 16, lg: 4, md: 3, sm: 3, xs: 2 }}
-        dataSource={menu}
-        renderItem={(item) => (
-          <List.Item>
-            <Card
-              hoverable
-              cover={
-                <img
-                  alt="product-image"
-                  src={`${API_ROOT}/storage/img/${item.image}`}
-                />
-              }
-              actions={[
-                <Button
-                  type="link"
-                  onClick={() => dispatch(cartAddProduct(item))}
-                  icon={<FaCartPlus />}
-                />,
-                <FaHeart key="favorite" />,
-              ]}
-            >
-              <Card.Meta
-                title={item.title}
-                description={new Intl.NumberFormat("de-DE", {
-                  style: "currency",
-                  currency: "EUR",
-                }).format(item.price)}
-              />
-            </Card>
-          </List.Item>
-        )}
-      />
+      <Spin spinning={loading} indicator={<LoadingOutlined />}>
+        <List
+          className="menu-list"
+          grid={{ gutter: 16, lg: 4, md: 3, sm: 3, xs: 2 }}
+          dataSource={menu}
+          renderItem={(item) => (
+            <List.Item>
+              <Product product={item} />
+            </List.Item>
+          )}
+        />
+      </Spin>
     </React.Fragment>
   );
 };

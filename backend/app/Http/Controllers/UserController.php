@@ -34,7 +34,7 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $token = auth()->login($user);
-        return response()->json(['token'=> $token, 'user' => auth()->user()]);
+        return response()->json(['success' => true, 'token' => $token, 'user' => auth()->user()]);
     }
 
     public function show(Request $request)
