@@ -26,6 +26,10 @@ const Product = (props) => {
           message.success("Favorited!");
         }
         setLoading(false);
+      })
+      .catch((e) => {
+        props.openLogin();
+        setLoading(false);
       });
   };
 
@@ -40,6 +44,10 @@ const Product = (props) => {
           dispatch(removeFavorite(product));
           message.success("Unfavorited!");
         }
+        setLoading(false);
+      })
+      .catch((e) => {
+        props.openLogin();
         setLoading(false);
       });
   };

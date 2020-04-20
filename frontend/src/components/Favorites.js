@@ -18,9 +18,11 @@ import { FaCartPlus, FaHeart } from "react-icons/fa";
 import { cartAddProduct } from "../reducers/actions/cartActions";
 import Product from "./partials/Product";
 import { LoadingOutlined } from "@ant-design/icons";
+import Login from "./account/Login";
 
 const Favorites = (props) => {
   const [favorites, setFavorites] = useState([]);
+  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -53,8 +55,14 @@ const Favorites = (props) => {
       });
   };
 
+  const openLogin = () => {
+    props.history.push("/");
+    setVisible(true);
+  };
+
   return (
     <React.Fragment>
+      <Login onClose={() => setVisible(false)} visible={visible} />
       <Breadcrumb>
         <Breadcrumb.Item>
           <Link to="/">
@@ -71,7 +79,7 @@ const Favorites = (props) => {
             dataSource={favorites}
             renderItem={(item) => (
               <List.Item>
-                <Product product={item} />
+                <Product product={item} openLogin={openLogin} />
               </List.Item>
             )}
           />

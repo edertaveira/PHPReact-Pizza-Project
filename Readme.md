@@ -1,13 +1,15 @@
 [![Heroku](https://heroku-badge.herokuapp.com/?app=pizzaclub-api)](https://pizzaclub-api.herokuapp.com/)
 [![Heroku](https://heroku-badge.herokuapp.com/?app=pizzaclub)](https://pizzaclub.herokuapp.com/)
 
-
 # THE PIZZA TASK
 
 It's a Project to manage pizza orders from Innoscripta.
 
-API (Backend) URL: https://pizzaclub-api.herokuapp.com/
-Frontend URL: https://pizzaclub.herokuapp.com/
+#### API (Backend) 
+URL: https://pizzaclub-api.herokuapp.com/
+
+#### Frontend URL: 
+https://pizzaclub.herokuapp.com/
 
 
 ## Getting Started
@@ -36,20 +38,32 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-In the terminal run:
-```cd backend```
-```composer install```
-```php artisan migrate```
-```php artisan db:seed```
-```php artisan jwt:secret```
-```php artisan storage:link```
-```php artisan serve```
+Run at terminal: 
 
+```$ cd backend```
+
+```$ composer install```
+
+```$ php artisan migrate```
+
+```$ php artisan db:seed```
+
+```$ php artisan jwt:secret```
+
+```$ php artisan storage:link```
+
+```$ php artisan serve```
+
+Check your database. It should be something like:
+![database](./docs/database.png)
 
 #### Frontend:
-In the terminal run:
+Run at terminal:
+
 ```cd frontend```
+
 ```npm install``` or ```yarn```
+
 ```npm start``` or ```yarn start```
 
 You can add `API_ROOT` and `STORAGE_ROOT` in your frontend `.env` file to set the API URL and/or the image's folder.
@@ -58,6 +72,10 @@ You can add `API_ROOT` and `STORAGE_ROOT` in your frontend `.env` file to set th
 ## Running the tests
 
 ### Backend:
+Run at terminal:
+```php artisan test```
+
+![backend](./docs/backend-test.png)
 
 ### Frontend:
 
