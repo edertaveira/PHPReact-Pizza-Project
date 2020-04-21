@@ -37,6 +37,7 @@ DB_DATABASE=pizza
 DB_USERNAME=root
 DB_PASSWORD=
 ```
+* Make sure the database was created.
 
 Run at terminal: 
 

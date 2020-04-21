@@ -59,5 +59,10 @@ class DatabaseSeeder extends Seeder
             'title' => "Portuguese Pizza",
             'price' => 21.00,
         ]);
+
+
+        DB::table('seeting')->insert([
+            'costs' => 5.00,
+        ]);
     }
 }

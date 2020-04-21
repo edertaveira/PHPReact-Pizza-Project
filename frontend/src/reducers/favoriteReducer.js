@@ -11,7 +11,9 @@ function favoriteRoot(state = initialState, action) {
   const product = action.product;
   const curState = { ...state };
   let products = curState.products;
-  const fprod = products.find((item) => item.product_id === product.product_id);
+  const fprod = product
+    ? products.find((item) => item.product_id === product.product_id)
+    : null;
 
   switch (action.type) {
     case ADD_FAV:

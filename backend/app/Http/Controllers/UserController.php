@@ -14,11 +14,6 @@ class UserController extends Controller
         $this->middleware('auth:api', ['except' => ['store']]);
     }
 
-    public function index()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -35,20 +30,5 @@ class UserController extends Controller
         $user = User::create($input);
         $token = auth()->login($user);
         return response()->json(['success' => true, 'token' => $token, 'user' => auth()->user()]);
-    }
-
-    public function show(Request $request)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }

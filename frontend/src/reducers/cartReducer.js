@@ -8,6 +8,8 @@ function cartRoot(state = initialState, action) {
   let products = curState.products;
   let amount = curState.amount;
   let total = curState.total;
+  const costs = parseFloat(action.costs);
+  console.log(action)
 
   switch (action.type) {
     case ADD:
@@ -18,9 +20,8 @@ function cartRoot(state = initialState, action) {
         products[product.product_id].amount = 1;
       }
       amount += 1;
-      console.log(total, products[product.product_id].price)
       total += parseFloat(products[product.product_id].price);
-      return { products, amount, total };
+      return { products, amount, total, costs };
 
     case REMOVE:
       products[product.product_id].amount -= 1;
@@ -29,7 +30,7 @@ function cartRoot(state = initialState, action) {
         delete products[product.product_id];
       }
       amount -= 1;
-      return { products, amount, total };
+      return { products, amount, total, costs };
 
     case EMPTY:
       return { products: [], amount: 0, total: 0 };
