@@ -43,7 +43,7 @@ class UserTest extends TestCase
 
     public function testUserLoginSuccess()
     {
-        $user = factory(User::class)->create([
+        factory(User::class)->create([
             'email' => Config::get('api.apiEmail'),
             'password' => bcrypt(Config::get('api.apiPassword')),
         ]);
@@ -61,7 +61,7 @@ class UserTest extends TestCase
     public function testUserLoginFailed()
     {
 
-        $user = factory(User::class)->create([
+        factory(User::class)->create([
             'email' => Config::get('api.apiEmail'),
             'password' => bcrypt(Config::get('api.apiPassword')),
         ]);

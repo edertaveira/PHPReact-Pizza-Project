@@ -31,7 +31,7 @@ const Orders = (props) => {
       }
       setLoading(false);
     }).catch(error => {
-      if (error.response.status)  {
+      if (error.response && error.response.status)  {
         message.info(error.response.data.message)
         props.history.push("/");
       }
@@ -54,9 +54,9 @@ const Orders = (props) => {
       dataIndex: "total",
       key: "total",
       render: (price) => {
-        return new Intl.NumberFormat("de-DE", {
+        return new Intl.NumberFormat(props.locale, {
           style: "currency",
-          currency: "EUR",
+          currency: props.currency,
         }).format(price);
       },
     },
@@ -86,9 +86,9 @@ const Orders = (props) => {
                 dataIndex: "price",
                 key: "price",
                 render: (price) => {
-                  return new Intl.NumberFormat("de-DE", {
+                  return new Intl.NumberFormat(props.locale, {
                     style: "currency",
-                    currency: "EUR",
+                    currency: props.currency,
                   }).format(price);
                 },
               },
@@ -103,10 +103,10 @@ const Orders = (props) => {
                 dataIndex: "total",
                 key: "total",
                 render: (price, record) => {
-                  return new Intl.NumberFormat("de-DE", {
+                  return new Intl.NumberFormat(props.locale, {
                     style: "currency",
-                    currency: "EUR",
-                  }).format(record.pivot.price);
+                    currency: props.currency,
+                  }).format(record.pivot.price * props.rate);
                 },
               },
             ]}
@@ -136,5 +136,8 @@ const Orders = (props) => {
 const mapStateToProps = (appState) => ({
   user: appState.user,
   cart: appState.cart,
+  rate: appState.setting.rate,
+  currency: appState.setting.currency,
+  locale: appState.setting.locale,
 });
 export default withRouter(connect(mapStateToProps)(Orders));

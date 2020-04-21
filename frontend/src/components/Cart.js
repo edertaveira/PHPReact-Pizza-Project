@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Table, Layout, Breadcrumb, Button, Space, Empty } from "antd";
-import { API_ROOT } from "../common/names";
+import { Table, Layout, Breadcrumb, Button, Space, Empty, List } from "antd";
+import { API_ROOT, deliveryCosts } from "../common/names";
 import { HomeOutlined } from "@ant-design/icons";
-
 import "./Cart.css";
-import { FaMinus, FaPlus, FaTrash, FaCheck, FaSmile, FaGrinBeamSweat } from "react-icons/fa";
+import {
+  FaMinus,
+  FaPlus,
+  FaTrash,
+  FaCheck,
+  FaSmile,
+  FaGrinBeamSweat,
+} from "react-icons/fa";
 import {
   cartAddProduct,
   cartRemoveProduct,
@@ -57,10 +63,10 @@ const Cart = (props) => {
       dataIndex: "price",
       key: "price",
       render: (price) => {
-        return new Intl.NumberFormat("de-DE", {
+        return new Intl.NumberFormat(props.locale, {
           style: "currency",
-          currency: "EUR",
-        }).format(price);
+          currency: props.currency,
+        }).format(price * props.rate);
       },
     },
   ];
@@ -73,12 +79,12 @@ const Cart = (props) => {
           <Button
             type="link"
             icon={<FaPlus />}
-            onClick={() => dispatch(cartAddProduct(record))}
+            onClick={() => dispatch(cartAddProduct(record, props.costs))}
           />
           <Button
             type="link"
             icon={<FaMinus />}
-            onClick={() => dispatch(cartRemoveProduct(record))}
+            onClick={() => dispatch(cartRemoveProduct(record, props.costs))}
           />
         </div>
       ),
@@ -114,12 +120,37 @@ const Cart = (props) => {
       rowKey="product_id"
       columns={columns}
       dataSource={cart}
-      footer={() =>
-        `Total: ${new Intl.NumberFormat("de-DE", {
-          style: "currency",
-          currency: "EUR",
-        }).format(props.cart.total)}`
-      }
+      footer={() => (
+        <List className="totais">
+          <List.Item>
+            SubTotal:{" "}
+            {new Intl.NumberFormat(props.locale, {
+              style: "currency",
+              currency: props.currency,
+            }).format(props.cart.total * props.rate)}
+          </List.Item>
+          {cart.length > 0 && (
+            <List.Item>
+              Delivery Costs:{" "}
+              {new Intl.NumberFormat(props.locale, {
+                style: "currency",
+                currency: props.currency,
+              }).format(props.costs * props.rate)}
+            </List.Item>
+          )}
+          {cart.length > 0 && (
+            <List.Item>
+              Total:{" "}
+              {new Intl.NumberFormat(props.locale, {
+                style: "currency",
+                currency: props.currency,
+              }).format(
+                (props.cart.total + parseFloat(props.costs)) * props.rate
+              )}
+            </List.Item>
+          )}
+        </List>
+      )}
     />
   );
 
@@ -151,6 +182,7 @@ const Cart = (props) => {
         </Breadcrumb.Item>
         <Breadcrumb.Item>Basket</Breadcrumb.Item>
       </Breadcrumb>
+
       <Layout.Content className="content">
         {tableCart}
         <br />
@@ -181,5 +213,9 @@ const Cart = (props) => {
 const mapStateToProps = (appState) => ({
   user: appState.user,
   cart: appState.cart,
+  costs: appState.setting.costs,
+  rate: appState.setting.rate,
+  currency: appState.setting.currency,
+  locale: appState.setting.locale,
 });
 export default withRouter(connect(mapStateToProps)(Cart));

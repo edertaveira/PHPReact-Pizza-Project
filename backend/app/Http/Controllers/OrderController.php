@@ -56,6 +56,7 @@ class OrderController extends Controller
         $order = new Order();
         $order->total = $input["order"]["total"];
         $order->user_id = $user->user_id;
+        $order->costs = $input["costs"];
         $order->save();
 
         foreach ($input["order"]["products"] as $product) {

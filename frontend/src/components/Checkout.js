@@ -37,6 +37,7 @@ const Checkout = (props) => {
     setLoading(true);
 
     values.order = props.cart;
+    values.costs = props.costs
 
     axios
       .post(API_ROOT + "/api/order/new", values)
@@ -139,5 +140,6 @@ const Checkout = (props) => {
 const mapStateToProps = (appState) => ({
   user: appState.user,
   cart: appState.cart,
+  costs: appState.setting.costs,
 });
 export default withRouter(connect(mapStateToProps)(Checkout));

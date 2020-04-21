@@ -81,7 +81,7 @@ const Product = (props) => {
       actions={[
         <Button
           type="link"
-          onClick={() => dispatch(cartAddProduct(item))}
+          onClick={() => dispatch(cartAddProduct(item, props.costs))}
           icon={<FaCartPlus />}
         />,
         favorite(item),
@@ -89,10 +89,10 @@ const Product = (props) => {
     >
       <Card.Meta
         title={item.title}
-        description={new Intl.NumberFormat("de-DE", {
+        description={new Intl.NumberFormat(props.locale, {
           style: "currency",
-          currency: "EUR",
-        }).format(item.price)}
+          currency: props.currency,
+        }).format(item.price * props.rate)}
       />
     </Card>
   );
@@ -101,5 +101,9 @@ const Product = (props) => {
 const mapStateToProps = (appState) => ({
   user: appState.user,
   favorite: appState.favorite,
+  costs: appState.setting.costs,
+  locale: appState.setting.locale,
+  currency: appState.setting.currency,
+  rate: appState.setting.rate
 });
 export default withRouter(connect(mapStateToProps)(Product));

@@ -1,24 +1,36 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import { costsUpdate } from "../reducers/actions/settingActions";
+import { API_ROOT } from "../common/names";
 
-class HandyAuth extends Component {
-  async addToken() {
-    let dataToken = this.props.token;
+const HandyAuth = (props) => {
+  useEffect(() => {
+    addToken();
+    setupCosts();
+  }, []);
+
+  const setupCosts = () => {
+    axios.post(API_ROOT + "/api/setting/get").then((result) => {
+      if (result.data.success) {
+        props.costsUpdate(result.data.setting.costs);
+      }
+    });
+  };
+
+  const addToken = async () => {
+    let dataToken = props.token;
     if (dataToken) {
-      var token = "Bearer " + this.props.token;
+      var token = "Bearer " + props.token;
       axios.defaults.headers.common["Authorization"] = token;
     }
-  }
+  };
 
-  render() {
-    this.addToken();
-    return this.props.children;
-  }
-}
+  return props.children;
+};
 
 const mapStateProps = (appState) => ({
   token: appState.user.token,
 });
 
-export default connect(mapStateProps)(HandyAuth);
+export default connect(mapStateProps, { costsUpdate })(HandyAuth);
