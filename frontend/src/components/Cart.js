@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Table, Layout, Breadcrumb, Button, Space, Empty, List } from "antd";
-import { API_ROOT, deliveryCosts } from "../common/names";
+import { API_ROOT, STORAGE_ROOT, deliveryCosts } from "../common/names";
 import { HomeOutlined } from "@ant-design/icons";
 import "./Cart.css";
 import {
@@ -36,7 +36,7 @@ const Cart = (props) => {
       render: (image) => {
         return (
           <img
-            src={`${API_ROOT}/storage/img/${image}`}
+            src={`${STORAGE_ROOT}/${image}`}
             className="cart-thumb"
           />
         );
