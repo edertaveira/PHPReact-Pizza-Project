@@ -3,7 +3,7 @@
 
 # THE PIZZA TASK
 
-It's a Project to manage pizza orders from Innoscripta.
+It's a Project to manage pizza orders.
 
 #### API (Backend) 
 URL: https://pizzaclub-api.herokuapp.com/
