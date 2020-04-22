@@ -1,5 +1,3 @@
-[![Heroku](https://heroku-badge.herokuapp.com/?app=pizzaclub-api)](https://pizzaclub-api.herokuapp.com/)
-[![Heroku](https://heroku-badge.herokuapp.com/?app=pizzaclub)](https://pizzaclub.herokuapp.com/)
 
 # THE PIZZA TASK
 
